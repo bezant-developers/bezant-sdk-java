@@ -1,8 +1,8 @@
-# Bezant Baas Java SDK
+# Bezant BaaS Java SDK
 
-The Bezant Baas SDK is a sdk for building decentralized applications over the Bezant blockchain.
+The Bezant BaaS SDK is a sdk for building decentralized applications over the Bezant blockchain.
 
-> Note: While the Bezant Baas is now testnet, it is still under active development; there may be breaking changes.
+> Note: While the Bezant BaaS is now testnet, it is still under active development; there may be breaking changes.
 
 &nbsp;
 
