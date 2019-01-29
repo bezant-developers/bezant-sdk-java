@@ -12,17 +12,48 @@ The Bezant Baas SDK is a sdk for building decentralized applications over the Be
 
 &nbsp;
 
-## Quick start
-
 ### Prerequisites
 
 * Java 1.7 +
 * Maven 3.x +
 
 ### Installation 
+Step 1. Add the JitPack repository to your build file
 ```xml
-
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
 ```
-## License
+Step 2. Add the dependency
+```xml
+<dependency>
+    <groupId>com.github.bezant-developers</groupId>
+    <artifactId>bezant-sdk-java</artifactId>
+    <version>0.1</version>
+</dependency>
+```
 
+### SDK Usage
+for Test Net
+```java
+BezantApi api = BezantApiFactory.createTestNetApi("{API KEY}");
+```
+
+for Main Net
+```java
+BezantApi api = BezantApiFactory.createMainNetApi("{API KEY}");
+```
+
+#### List of Api Functions
+- createWallet(String: walletSecretKey)
+- transferToken(TokenTransferRequest: request)
+- getTokenBalance(String: tokenName, String: address)
+- invokeChaincode(ChaincodeInvokeRequest: request)
+- queryChaincode(ChaincodeQueryRequest: request)
+
+
+## License
 MIT
