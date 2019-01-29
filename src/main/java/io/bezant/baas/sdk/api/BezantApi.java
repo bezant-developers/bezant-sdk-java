@@ -5,7 +5,6 @@ import com.google.common.collect.Maps;
 import io.bezant.baas.sdk.config.ApiEndpoint;
 import io.bezant.baas.sdk.config.Configuration;
 import io.bezant.baas.sdk.exception.BezantApiException;
-import io.bezant.baas.sdk.model.BezantError;
 import io.bezant.baas.sdk.model.request.ChaincodeInvokeRequest;
 import io.bezant.baas.sdk.model.request.ChaincodeQueryRequest;
 import io.bezant.baas.sdk.model.request.TokenTransferRequest;
@@ -63,10 +62,10 @@ public class BezantApi {
         }
 
         if (body.startsWith("{")) {
-            BezantError bezantError = JsonUtils.fromJson(body, BezantError.class);
+            BezantApiErrorResponse bezantError = JsonUtils.fromJson(body, BezantApiErrorResponse.class);
             throw new BezantApiException(bezantError);
         } else {
-            BezantError bezantError = new BezantError();
+            BezantApiErrorResponse bezantError = new BezantApiErrorResponse();
             bezantError.setMessage(body);
             bezantError.setCode(Integer.toString(response.code()));
             throw new BezantApiException(bezantError);

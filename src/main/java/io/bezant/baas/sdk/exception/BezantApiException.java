@@ -1,6 +1,6 @@
 package io.bezant.baas.sdk.exception;
 
-import io.bezant.baas.sdk.model.BezantError;
+import io.bezant.baas.sdk.model.response.BezantApiErrorResponse;
 
 public class BezantApiException extends RuntimeException {
 
@@ -8,17 +8,17 @@ public class BezantApiException extends RuntimeException {
 
     private String code;
 
-    private BezantError bezantError;
+    private BezantApiErrorResponse errorResponse;
 
-    public BezantApiException(BezantError bezantError) {
-        super(bezantError.getMessage());
-        this.bezantError = bezantError;
-        this.message = bezantError.getMessage();
-        this.code = bezantError.getCode();
+    public BezantApiException(BezantApiErrorResponse bezantApiErrorResponse) {
+        super(bezantApiErrorResponse.getMessage());
+        this.errorResponse = bezantApiErrorResponse;
+        this.message = bezantApiErrorResponse.getMessage();
+        this.code = bezantApiErrorResponse.getCode();
     }
 
-    public BezantError getBezantError() {
-        return bezantError;
+    public BezantApiErrorResponse getErrorResponse() {
+        return errorResponse;
     }
 
     public String getMessage() {
