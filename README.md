@@ -42,7 +42,7 @@ for Test Net
 BezantApi api = BezantApiFactory.createTestNetApi("{API KEY}");
 ```
 
-for Main Net
+for Main Net (TBD, Not Yet)
 ```java
 BezantApi api = BezantApiFactory.createMainNetApi("{API KEY}");
 ```
