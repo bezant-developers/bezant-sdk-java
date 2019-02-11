@@ -1,6 +1,7 @@
 package io.bezant.baas.sdk.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import io.bezant.baas.sdk.config.ApiEndpoint;
 import io.bezant.baas.sdk.config.Configuration;
@@ -55,19 +56,25 @@ public class BezantApi {
 
         Response response = client.newCall(request).execute();
 
-        String body = response.body().string();
-
-        if (response.isSuccessful()) {
-            return JsonUtils.fromJson(body, typeReference);
+        if (!response.isSuccessful()) {
+            BezantApiErrorResponse bezantError = (BezantApiErrorResponse) fromJson(response, new TypeReference<BezantResponse<String>>(){});
+            throw new BezantApiException(bezantError);
         }
 
-        if (body.startsWith("{")) {
-            BezantApiErrorResponse bezantError = JsonUtils.fromJson(body, BezantApiErrorResponse.class);
-            throw new BezantApiException(bezantError);
-        } else {
+        return fromJson(response, typeReference);
+    }
+
+    private <T> BezantResponse<T> fromJsonWithId(Response response, TypeReference<BezantResponse<T>> typeReference) throws IOException {
+        String requestId = response.header("Request-Id");
+        try {
+            BezantResponse<T> bezantResponse = JsonUtils.fromJson(response.body().string(), typeReference);
+            bezantResponse.setRequestId(requestId);
+            return bezantResponse;
+        } catch (RuntimeException e) {
             BezantApiErrorResponse bezantError = new BezantApiErrorResponse();
-            bezantError.setMessage(body);
+            bezantError.setMessage(response.body().string());
             bezantError.setCode(Integer.toString(response.code()));
+            bezantError.setRequestId(requestId);
             throw new BezantApiException(bezantError);
         }
     }

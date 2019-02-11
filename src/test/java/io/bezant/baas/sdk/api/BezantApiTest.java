@@ -1,6 +1,5 @@
 package io.bezant.baas.sdk.api;
 
-import io.bezant.baas.sdk.exception.BezantApiException;
 import io.bezant.baas.sdk.model.request.TokenTransferRequest;
 import io.bezant.baas.sdk.model.response.BezantResponse;
 import io.bezant.baas.sdk.model.response.CreateWalletResponse;
@@ -8,12 +7,11 @@ import io.bezant.baas.sdk.model.response.TokenBalanceResponse;
 import io.bezant.baas.sdk.model.response.TokenTransferResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @Slf4j

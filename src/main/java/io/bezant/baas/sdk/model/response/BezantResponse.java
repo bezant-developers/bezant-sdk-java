@@ -8,4 +8,6 @@ public class BezantResponse<T> {
     private String code;
 
     private T message;
+
+    private String requestId;
 }
