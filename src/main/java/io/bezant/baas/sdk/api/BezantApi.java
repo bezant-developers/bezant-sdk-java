@@ -57,7 +57,8 @@ public class BezantApi {
         Response response = client.newCall(request).execute();
 
         if (!response.isSuccessful()) {
-            BezantApiErrorResponse bezantError = (BezantApiErrorResponse) fromJsonWithId(response, new TypeReference<BezantResponse<String>>(){});
+            BezantResponse<String> bezantResponse = fromJsonWithId(response, new TypeReference<BezantResponse<String>>(){});
+            BezantApiErrorResponse bezantError = BezantApiErrorResponse.builder().requestId(bezantResponse.getRequestId()).code(bezantResponse.getCode()).message(bezantResponse.getMessage().toString()).build();
             throw new BezantApiException(bezantError);
         }
 
@@ -71,10 +72,11 @@ public class BezantApi {
             bezantResponse.setRequestId(requestId);
             return bezantResponse;
         } catch (RuntimeException e) {
-            BezantApiErrorResponse bezantError = new BezantApiErrorResponse();
-            bezantError.setMessage(response.body().string());
-            bezantError.setCode(Integer.toString(response.code()));
-            bezantError.setRequestId(requestId);
+            BezantApiErrorResponse bezantError = BezantApiErrorResponse.builder()
+                    .message(response.body().string())
+                    .requestId(requestId)
+                    .code(Integer.toString(response.code()))
+                    .build();
             throw new BezantApiException(bezantError);
         }
     }

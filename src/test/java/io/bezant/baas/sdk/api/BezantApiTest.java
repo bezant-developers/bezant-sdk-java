@@ -1,10 +1,8 @@
 package io.bezant.baas.sdk.api;
 
+import io.bezant.baas.sdk.exception.BezantApiException;
 import io.bezant.baas.sdk.model.request.TokenTransferRequest;
-import io.bezant.baas.sdk.model.response.BezantResponse;
-import io.bezant.baas.sdk.model.response.CreateWalletResponse;
-import io.bezant.baas.sdk.model.response.TokenBalanceResponse;
-import io.bezant.baas.sdk.model.response.TokenTransferResponse;
+import io.bezant.baas.sdk.model.response.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +10,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 
 
 @Slf4j
@@ -43,6 +42,26 @@ public class BezantApiTest {
         BezantResponse<TokenTransferResponse> response = api.transferToken(tokenTransferRequest);
         log.info(response.toString());
         assertThat(response.getMessage().getTxId()).isNotBlank();
+    }
+
+    @Test
+    public void failed_TransferTokenApiCall_InvalidSkey() throws IOException {
+        TokenTransferRequest tokenTransferRequest = new TokenTransferRequest();
+        tokenTransferRequest.setTokenName("chequer");
+        tokenTransferRequest.setFromAddress("bznt0x939F0e76675424b603b61B1472A5C99301414197");
+        tokenTransferRequest.setToAddress("bznt0x1E50408Cf2972A1DeEe74A00Be07A156cdFc5362");
+        tokenTransferRequest.setFromSkey("invalidSkey");
+        tokenTransferRequest.setAmount("1");
+
+        boolean thrown = false;
+        try {
+            api.transferToken(tokenTransferRequest);
+        } catch (BezantApiException e) {
+            log.info("{}", e);
+            if (e.getMessage().trim().equals("Invalid symmetric key.")) thrown = true;
+        }
+
+        assertThat(thrown).isTrue();
     }
 
     @Test
