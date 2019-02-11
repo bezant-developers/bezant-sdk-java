@@ -57,11 +57,11 @@ public class BezantApi {
         Response response = client.newCall(request).execute();
 
         if (!response.isSuccessful()) {
-            BezantApiErrorResponse bezantError = (BezantApiErrorResponse) fromJson(response, new TypeReference<BezantResponse<String>>(){});
+            BezantApiErrorResponse bezantError = (BezantApiErrorResponse) fromJsonWithId(response, new TypeReference<BezantResponse<String>>(){});
             throw new BezantApiException(bezantError);
         }
 
-        return fromJson(response, typeReference);
+        return fromJsonWithId(response, typeReference);
     }
 
     private <T> BezantResponse<T> fromJsonWithId(Response response, TypeReference<BezantResponse<T>> typeReference) throws IOException {
