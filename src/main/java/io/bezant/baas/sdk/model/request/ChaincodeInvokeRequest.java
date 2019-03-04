@@ -1,6 +1,5 @@
 package io.bezant.baas.sdk.model.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
@@ -14,6 +13,7 @@ public class ChaincodeInvokeRequest {
 
     private String skey;
 
-    @JsonIgnore
+    private String channelName;
+
     private String chaincodeName;
 }

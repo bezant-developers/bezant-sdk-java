@@ -7,9 +7,7 @@ public class TestNetConfiguration extends AbstractConfiguration {
     }
 
     @Override
-    public NetworkType getNetworkType() {
-        return NetworkType.TESTNET;
-    }
+    public NetworkType getNetworkType() { return NetworkType.TESTNET; }
 
     @Override
     public ApiEndpoint getApiEndpoint() {

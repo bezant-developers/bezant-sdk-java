@@ -1,19 +1,20 @@
 package io.bezant.baas.sdk.model.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
 public class ChaincodeQueryRequest {
 
-    private String function;
+    private String channelName;
 
-    private String[] args;
+    private String chaincodeName;
 
     private String address;
 
     private String skey;
 
-    @JsonIgnore
-    private String chaincodeName;
+    private String function;
+
+    private String[] args;
+
 }

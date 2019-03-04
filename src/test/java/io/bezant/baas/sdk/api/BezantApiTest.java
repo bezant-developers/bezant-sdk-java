@@ -1,7 +1,8 @@
 package io.bezant.baas.sdk.api;
 
 import io.bezant.baas.sdk.exception.BezantApiException;
-import io.bezant.baas.sdk.model.request.TokenTransferRequest;
+import io.bezant.baas.sdk.model.request.token.TokenBalanceRequest;
+import io.bezant.baas.sdk.model.request.token.TokenTransferRequest;
 import io.bezant.baas.sdk.model.response.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -25,7 +26,7 @@ public class BezantApiTest {
 
     @Test
     public void createWalletApiCall() throws IOException {
-        BezantResponse<CreateWalletResponse> response = api.createWallet("bezant");
+        BezantResponse<CreateWalletResponse> response = api.createWallet("common-channel", "bezant");
         log.info(response.toString());
         assertThat(response.getMessage().getEnrollmentID()).isNotBlank();
     }
@@ -33,7 +34,8 @@ public class BezantApiTest {
     @Test
     public void transferTokenApiCall() throws IOException {
         TokenTransferRequest tokenTransferRequest = new TokenTransferRequest();
-        tokenTransferRequest.setTokenName("chequer");
+        tokenTransferRequest.setChannelName("common-channel");
+        tokenTransferRequest.setTokenChaincodeName("bezant-token");
         tokenTransferRequest.setFromAddress("bznt0x939F0e76675424b603b61B1472A5C99301414197");
         tokenTransferRequest.setToAddress("bznt0x1E50408Cf2972A1DeEe74A00Be07A156cdFc5362");
         tokenTransferRequest.setFromSkey("chequer12!@");
@@ -47,10 +49,11 @@ public class BezantApiTest {
     @Test
     public void failed_TransferTokenApiCall_InvalidSkey() throws IOException {
         TokenTransferRequest tokenTransferRequest = new TokenTransferRequest();
-        tokenTransferRequest.setTokenName("chequer");
+        tokenTransferRequest.setChannelName("common-channel");
+        tokenTransferRequest.setTokenChaincodeName("bezant-token");
         tokenTransferRequest.setFromAddress("bznt0x939F0e76675424b603b61B1472A5C99301414197");
         tokenTransferRequest.setToAddress("bznt0x1E50408Cf2972A1DeEe74A00Be07A156cdFc5362");
-        tokenTransferRequest.setFromSkey("invalidSkey");
+        tokenTransferRequest.setFromSkey("chequer12!@");
         tokenTransferRequest.setAmount("1");
 
         boolean thrown = false;
@@ -66,7 +69,14 @@ public class BezantApiTest {
 
     @Test
     public void tokenBalanceApiCall() throws IOException {
-        BezantResponse<TokenBalanceResponse> response = api.getTokenBalance("chequer", "bznt0x939F0e76675424b603b61B1472A5C99301414197");
+        TokenBalanceRequest request = new TokenBalanceRequest();
+        request.setChannelName("common-channel");
+        request.setTokenChaincodeName("bezant-token");
+        request.setInvokerAddress("bznt0x939F0e76675424b603b61B1472A5C99301414197");
+        request.setInvokerSkey("chequer12!@");
+        request.setAddress("bznt0x939F0e76675424b603b61B1472A5C99301414197");
+
+        BezantResponse<TokenBalanceResponse> response = api.getTokenBalance(request);
         log.info(response.toString());
         assertThat(response.getMessage().getBalance()).isNotBlank();
     }
@@ -78,4 +88,5 @@ public class BezantApiTest {
     @Test
     public void queryChaincodeApiCall() throws IOException {
     }
+
 }

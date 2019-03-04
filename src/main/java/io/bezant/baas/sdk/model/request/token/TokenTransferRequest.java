@@ -1,11 +1,11 @@
-package io.bezant.baas.sdk.model.request;
+package io.bezant.baas.sdk.model.request.token;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
 public class TokenTransferRequest {
+
+    private String channelName;
 
     private String fromAddress;
 
@@ -15,6 +15,5 @@ public class TokenTransferRequest {
 
     private String amount;
 
-    @JsonIgnore
-    private String tokenName;
+    private String tokenChaincodeName;
 }

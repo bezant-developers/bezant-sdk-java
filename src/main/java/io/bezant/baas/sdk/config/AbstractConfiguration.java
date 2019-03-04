@@ -1,7 +1,5 @@
 package io.bezant.baas.sdk.config;
 
-import java.util.Properties;
-
 public abstract class AbstractConfiguration implements Configuration {
 
     protected String apiKey;
@@ -24,4 +22,5 @@ public abstract class AbstractConfiguration implements Configuration {
     public String getApiKey() {
         return apiKey;
     }
+
 }

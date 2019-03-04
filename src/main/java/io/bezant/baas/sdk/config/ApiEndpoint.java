@@ -7,9 +7,15 @@ import java.net.URL;
 public class ApiEndpoint {
 
     private NetworkType networkType;
+    private String customUrlHost;
 
-    public ApiEndpoint(NetworkType networkType) {
+    ApiEndpoint(NetworkType networkType) {
         this.networkType = networkType;
+    }
+
+    ApiEndpoint(NetworkType networkType, String customUrlHost) {
+        this.networkType = networkType;
+        this.customUrlHost = customUrlHost;
     }
 
     private static final String SCHEMA = "https";
@@ -22,12 +28,69 @@ public class ApiEndpoint {
                 .host(getHost());
     }
 
-    public URL getCreateWalletUrl() {
+    public URL getNewCreateWalletUrl() {
         return base()
                 .addPathSegment("blockchain")
                 .addPathSegment("v1")
                 .addPathSegment("tokens")
                 .addPathSegment("it_will_be_removed")
+                .addPathSegment("wallet")
+                .build()
+                .url();
+    }
+
+    public URL getNewTokenTransferUrl(String tokenName) {
+        return base()
+                .addPathSegment("blockchain")
+                .addPathSegment("v1")
+                .addPathSegment("tokens")
+                .addPathSegment(tokenName)
+                .addPathSegment("transfer")
+                .build()
+                .url();
+    }
+
+    public URL getNewBalanceUrl(String channelName, String chaincodeName) {
+        return base()
+                .addPathSegment("blockchain")
+                .addPathSegment("v1")
+                .addPathSegment(channelName)
+                .addPathSegment("chaincodes")
+                .addPathSegment(chaincodeName)
+                .addPathSegment("query")
+                .build()
+                .url();
+    }
+
+    public URL getNewChaincodeInvokeUrl(String channelName, String chaincodeName) {
+        return base()
+                .addPathSegment("blockchain")
+                .addPathSegment("v1")
+                .addPathSegment(channelName)
+                .addPathSegment("chaincodes")
+                .addPathSegment(chaincodeName)
+                .addPathSegment("invoke")
+                .build()
+                .url();
+    }
+
+    public URL getNewChaincodeQueryUrl(String channelName, String chaincodeName) {
+        return base()
+                .addPathSegment("blockchain")
+                .addPathSegment("v1")
+                .addPathSegment(channelName)
+                .addPathSegment("chaincodes")
+                .addPathSegment(chaincodeName)
+                .addPathSegment("query")
+                .build()
+                .url();
+    }
+
+    public URL getCreateWalletUrl(String channelName) {
+        return base()
+                .addPathSegment("blockchain")
+                .addPathSegment("v1")
+                .addPathSegment(channelName)
                 .addPathSegment("wallet")
                 .build()
                 .url();
@@ -78,7 +141,9 @@ public class ApiEndpoint {
                 .url();
     }
 
-    public String getHost() {
-        return networkType == NetworkType.MAINNET ? MAINNET_HOST : TESTNET_HOST;
+    private String getHost() {
+        if (networkType == NetworkType.MAINNET) return MAINNET_HOST;
+        else if (networkType == NetworkType.TESTNET) return TESTNET_HOST;
+        else return customUrlHost;
     }
 }

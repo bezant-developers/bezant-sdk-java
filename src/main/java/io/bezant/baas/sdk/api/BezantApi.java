@@ -1,14 +1,14 @@
 package io.bezant.baas.sdk.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import io.bezant.baas.sdk.config.ApiEndpoint;
 import io.bezant.baas.sdk.config.Configuration;
 import io.bezant.baas.sdk.exception.BezantApiException;
 import io.bezant.baas.sdk.model.request.ChaincodeInvokeRequest;
 import io.bezant.baas.sdk.model.request.ChaincodeQueryRequest;
-import io.bezant.baas.sdk.model.request.TokenTransferRequest;
+import io.bezant.baas.sdk.model.request.token.TokenTransferRequest;
+import io.bezant.baas.sdk.model.request.token.TokenBalanceRequest;
 import io.bezant.baas.sdk.model.response.*;
 import io.bezant.baas.sdk.util.JsonUtils;
 import okhttp3.*;
@@ -81,22 +81,36 @@ public class BezantApi {
         }
     }
 
-    public BezantResponse<CreateWalletResponse> createWallet(String walletSecretKey) throws IOException {
+    public BezantResponse<CreateWalletResponse> createWallet(String channelName, String walletSecretKey) throws IOException {
         RequestBody requestBody = RequestBody.create(jsonMediaType, JsonUtils.toJson(Maps.immutableEntry("skey", walletSecretKey)));
 
-        return post(requestBody, endpoint.getCreateWalletUrl(), new TypeReference<BezantResponse<CreateWalletResponse>>() {
+        return post(requestBody, endpoint.getCreateWalletUrl(channelName), new TypeReference<BezantResponse<CreateWalletResponse>>() {
         });
     }
 
     public BezantResponse<TokenTransferResponse> transferToken(TokenTransferRequest request) throws IOException {
-        RequestBody requestBody = RequestBody.create(jsonMediaType, JsonUtils.toJson(request));
+        ChaincodeInvokeRequest chaincodeRequest = new ChaincodeInvokeRequest();
+        chaincodeRequest.setFunction("transfer");
+        chaincodeRequest.setArgs(new String[] {request.getToAddress(), request.getAmount()});
+        chaincodeRequest.setAddress(request.getFromAddress());
+        chaincodeRequest.setSkey(request.getFromSkey());
 
-        return post(requestBody, endpoint.getTokenTransferUrl(request.getTokenName()), new TypeReference<BezantResponse<TokenTransferResponse>>() {
+        RequestBody requestBody = RequestBody.create(jsonMediaType, JsonUtils.toJson(chaincodeRequest));
+
+        return post(requestBody, endpoint.getNewChaincodeInvokeUrl(request.getChannelName(), request.getTokenChaincodeName()), new TypeReference<BezantResponse<TokenTransferResponse>>() {
         });
     }
 
-    public BezantResponse<TokenBalanceResponse> getTokenBalance(String tokenName, String address) throws IOException {
-        return get(endpoint.getBalanceUrl(tokenName, address), new TypeReference<BezantResponse<TokenBalanceResponse>>() {
+    public BezantResponse<TokenBalanceResponse> getTokenBalance(TokenBalanceRequest request) throws IOException {
+        ChaincodeQueryRequest chaincodeRequest = new ChaincodeQueryRequest();
+        chaincodeRequest.setFunction("get_balance");
+        chaincodeRequest.setArgs(new String[] {request.address});
+        chaincodeRequest.setAddress(request.getInvokerAddress());
+        chaincodeRequest.setSkey(request.getInvokerAddress());
+
+        RequestBody requestBody = RequestBody.create(jsonMediaType, JsonUtils.toJson(chaincodeRequest));
+
+        return post(requestBody, endpoint.getNewChaincodeQueryUrl(request.channelName, request.tokenChaincodeName), new TypeReference<BezantResponse<TokenBalanceResponse>>() {
         });
     }
 

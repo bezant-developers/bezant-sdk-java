@@ -11,4 +11,5 @@ public interface Configuration {
     ApiEndpoint getApiEndpoint();
 
     String getApiKey();
+
 }
