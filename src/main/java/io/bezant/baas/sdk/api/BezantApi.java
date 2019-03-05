@@ -81,10 +81,10 @@ public class BezantApi {
         }
     }
 
-    public BezantResponse<CreateWalletResponse> createWallet(String channelName, String walletSecretKey) throws IOException {
+    public BezantResponse<CreateWalletResponse> createWallet(String walletSecretKey) throws IOException {
         RequestBody requestBody = RequestBody.create(jsonMediaType, JsonUtils.toJson(Maps.immutableEntry("skey", walletSecretKey)));
 
-        return post(requestBody, endpoint.getCreateWalletUrl(channelName), new TypeReference<BezantResponse<CreateWalletResponse>>() {
+        return post(requestBody, endpoint.getCreateWalletUrl(), new TypeReference<BezantResponse<CreateWalletResponse>>() {
         });
     }
 
@@ -97,7 +97,7 @@ public class BezantApi {
 
         RequestBody requestBody = RequestBody.create(jsonMediaType, JsonUtils.toJson(chaincodeRequest));
 
-        return post(requestBody, endpoint.getNewChaincodeInvokeUrl(request.getChannelName(), request.getTokenChaincodeName()), new TypeReference<BezantResponse<TokenTransferResponse>>() {
+        return post(requestBody, endpoint.getChaincodeInvokeUrl(request.getChannelName(), request.getTokenChaincodeName()), new TypeReference<BezantResponse<TokenTransferResponse>>() {
         });
     }
 
@@ -110,21 +110,21 @@ public class BezantApi {
 
         RequestBody requestBody = RequestBody.create(jsonMediaType, JsonUtils.toJson(chaincodeRequest));
 
-        return post(requestBody, endpoint.getNewChaincodeQueryUrl(request.channelName, request.tokenChaincodeName), new TypeReference<BezantResponse<TokenBalanceResponse>>() {
+        return post(requestBody, endpoint.getChaincodeQueryUrl(request.channelName, request.tokenChaincodeName), new TypeReference<BezantResponse<TokenBalanceResponse>>() {
         });
     }
 
     public BezantResponse<ChaincodeInvokeResponse> invokeChaincode(ChaincodeInvokeRequest request) throws IOException {
         RequestBody requestBody = RequestBody.create(jsonMediaType, JsonUtils.toJson(request));
 
-        return post(requestBody, endpoint.getChaincodeInvokeUrl(request.getChaincodeName()), new TypeReference<BezantResponse<ChaincodeInvokeResponse>>() {
+        return post(requestBody, endpoint.getChaincodeInvokeUrl(request.getChannelName(), request.getChaincodeName()), new TypeReference<BezantResponse<ChaincodeInvokeResponse>>() {
         });
     }
 
     public BezantResponse<ChaincodeQueryResponse> queryChaincode(ChaincodeQueryRequest request) throws IOException {
         RequestBody requestBody = RequestBody.create(jsonMediaType, JsonUtils.toJson(request));
 
-        return post(requestBody, endpoint.getChaincodeQueryUrl(request.getChaincodeName()), new TypeReference<BezantResponse<ChaincodeQueryResponse>>() {
+        return post(requestBody, endpoint.getChaincodeQueryUrl(request.getChannelName(), request.getChaincodeName()), new TypeReference<BezantResponse<ChaincodeQueryResponse>>() {
         });
     }
 }

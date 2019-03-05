@@ -28,41 +28,7 @@ public class ApiEndpoint {
                 .host(getHost());
     }
 
-    public URL getNewCreateWalletUrl() {
-        return base()
-                .addPathSegment("blockchain")
-                .addPathSegment("v1")
-                .addPathSegment("tokens")
-                .addPathSegment("it_will_be_removed")
-                .addPathSegment("wallet")
-                .build()
-                .url();
-    }
-
-    public URL getNewTokenTransferUrl(String tokenName) {
-        return base()
-                .addPathSegment("blockchain")
-                .addPathSegment("v1")
-                .addPathSegment("tokens")
-                .addPathSegment(tokenName)
-                .addPathSegment("transfer")
-                .build()
-                .url();
-    }
-
-    public URL getNewBalanceUrl(String channelName, String chaincodeName) {
-        return base()
-                .addPathSegment("blockchain")
-                .addPathSegment("v1")
-                .addPathSegment(channelName)
-                .addPathSegment("chaincodes")
-                .addPathSegment(chaincodeName)
-                .addPathSegment("query")
-                .build()
-                .url();
-    }
-
-    public URL getNewChaincodeInvokeUrl(String channelName, String chaincodeName) {
+    public URL getChaincodeInvokeUrl(String channelName, String chaincodeName) {
         return base()
                 .addPathSegment("blockchain")
                 .addPathSegment("v1")
@@ -74,7 +40,7 @@ public class ApiEndpoint {
                 .url();
     }
 
-    public URL getNewChaincodeQueryUrl(String channelName, String chaincodeName) {
+    public URL getChaincodeQueryUrl(String channelName, String chaincodeName) {
         return base()
                 .addPathSegment("blockchain")
                 .addPathSegment("v1")
@@ -86,60 +52,15 @@ public class ApiEndpoint {
                 .url();
     }
 
-    public URL getCreateWalletUrl(String channelName) {
+    public URL getCreateWalletUrl() {
         return base()
                 .addPathSegment("blockchain")
                 .addPathSegment("v1")
-                .addPathSegment(channelName)
                 .addPathSegment("wallet")
                 .build()
                 .url();
     }
 
-    public URL getTokenTransferUrl(String tokenName) {
-        return base()
-                .addPathSegment("blockchain")
-                .addPathSegment("v1")
-                .addPathSegment("tokens")
-                .addPathSegment(tokenName)
-                .addPathSegment("transfer")
-                .build()
-                .url();
-    }
-
-    public URL getBalanceUrl(String tokenName, String address) {
-        return base()
-                .addPathSegment("blockchain")
-                .addPathSegment("v1")
-                .addPathSegment("tokens")
-                .addPathSegment(tokenName)
-                .addPathSegment("balance")
-                .addQueryParameter("address", address)
-                .build()
-                .url();
-    }
-
-    public URL getChaincodeInvokeUrl(String chainName) {
-        return base()
-                .addPathSegment("blockchain")
-                .addPathSegment("v1")
-                .addPathSegment("chaincodes")
-                .addPathSegment(chainName)
-                .addPathSegment("invoke")
-                .build()
-                .url();
-    }
-
-    public URL getChaincodeQueryUrl(String chainName) {
-        return base()
-                .addPathSegment("blockchain")
-                .addPathSegment("v1")
-                .addPathSegment("chaincodes")
-                .addPathSegment(chainName)
-                .addPathSegment("query")
-                .build()
-                .url();
-    }
 
     private String getHost() {
         if (networkType == NetworkType.MAINNET) return MAINNET_HOST;

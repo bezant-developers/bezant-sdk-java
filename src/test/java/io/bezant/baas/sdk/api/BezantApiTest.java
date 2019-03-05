@@ -26,7 +26,7 @@ public class BezantApiTest {
 
     @Test
     public void createWalletApiCall() throws IOException {
-        BezantResponse<CreateWalletResponse> response = api.createWallet("common-channel", "bezant");
+        BezantResponse<CreateWalletResponse> response = api.createWallet("bezant");
         log.info(response.toString());
         assertThat(response.getMessage().getEnrollmentID()).isNotBlank();
     }
