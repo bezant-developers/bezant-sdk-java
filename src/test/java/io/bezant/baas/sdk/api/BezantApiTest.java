@@ -36,9 +36,9 @@ public class BezantApiTest {
         TokenTransferRequest tokenTransferRequest = new TokenTransferRequest();
         tokenTransferRequest.setChannelName("common-channel");
         tokenTransferRequest.setTokenChaincodeName("bezant-token");
-        tokenTransferRequest.setFromAddress("bznt0x939F0e76675424b603b61B1472A5C99301414197");
-        tokenTransferRequest.setToAddress("bznt0x1E50408Cf2972A1DeEe74A00Be07A156cdFc5362");
-        tokenTransferRequest.setFromSkey("chequer12!@");
+        tokenTransferRequest.setFromAddress("bznt0x55D347B50C2a863aDF8E6E23815d82BB240c0311");
+        tokenTransferRequest.setToAddress("bznt0x1625A6a0B570f9233066993521C0161aABF0bA3a");
+        tokenTransferRequest.setFromSkey("good");
         tokenTransferRequest.setAmount("1");
 
         BezantResponse<TokenTransferResponse> response = api.transferToken(tokenTransferRequest);
@@ -51,8 +51,8 @@ public class BezantApiTest {
         TokenTransferRequest tokenTransferRequest = new TokenTransferRequest();
         tokenTransferRequest.setChannelName("common-channel");
         tokenTransferRequest.setTokenChaincodeName("bezant-token");
-        tokenTransferRequest.setFromAddress("bznt0x939F0e76675424b603b61B1472A5C99301414197");
-        tokenTransferRequest.setToAddress("bznt0x1E50408Cf2972A1DeEe74A00Be07A156cdFc5362");
+        tokenTransferRequest.setFromAddress("bznt0x55D347B50C2a863aDF8E6E23815d82BB240c0311");
+        tokenTransferRequest.setToAddress("bznt0x1625A6a0B570f9233066993521C0161aABF0bA3a");
         tokenTransferRequest.setFromSkey("chequer12!@");
         tokenTransferRequest.setAmount("1");
 
@@ -72,9 +72,9 @@ public class BezantApiTest {
         TokenBalanceRequest request = new TokenBalanceRequest();
         request.setChannelName("common-channel");
         request.setTokenChaincodeName("bezant-token");
-        request.setInvokerAddress("bznt0x939F0e76675424b603b61B1472A5C99301414197");
-        request.setInvokerSkey("chequer12!@");
-        request.setAddress("bznt0x939F0e76675424b603b61B1472A5C99301414197");
+        request.setInvokerAddress("bznt0x55D347B50C2a863aDF8E6E23815d82BB240c0311");
+        request.setInvokerSkey("good");
+        request.setAddress("bznt0x55D347B50C2a863aDF8E6E23815d82BB240c0311");
 
         BezantResponse<TokenBalanceResponse> response = api.getTokenBalance(request);
         log.info(response.toString());
