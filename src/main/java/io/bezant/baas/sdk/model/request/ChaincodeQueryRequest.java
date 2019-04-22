@@ -15,6 +15,6 @@ public class ChaincodeQueryRequest {
 
     private String function;
 
-    private String[] args;
+    private String args;
 
 }

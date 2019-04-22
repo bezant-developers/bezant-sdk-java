@@ -23,7 +23,6 @@ public class BezantApiFactory {
     }
 
     private static BezantApi createInternal(Configuration configuration) {
-        return new BezantApi(configuration);
+        return new BezantApiImpl(configuration);
     }
-
 }

@@ -7,11 +7,11 @@ public class ChaincodeInvokeRequest {
 
     private String function;
 
-    private String[] args;
-
     private String address;
 
     private String skey;
+
+    private String args;
 
     private String channelName;
 

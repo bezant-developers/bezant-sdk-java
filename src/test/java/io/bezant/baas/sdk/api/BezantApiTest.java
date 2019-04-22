@@ -1,9 +1,8 @@
 package io.bezant.baas.sdk.api;
 
-import io.bezant.baas.sdk.exception.BezantApiException;
-import io.bezant.baas.sdk.model.request.token.TokenBalanceRequest;
-import io.bezant.baas.sdk.model.request.token.TokenTransferRequest;
-import io.bezant.baas.sdk.model.response.*;
+import io.bezant.baas.sdk.model.response.BezantResponse;
+import io.bezant.baas.sdk.model.response.ChangeWalletPasswordResponse;
+import io.bezant.baas.sdk.model.response.CreateWalletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +12,6 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-
 @Slf4j
 public class BezantApiTest {
 
@@ -21,7 +19,7 @@ public class BezantApiTest {
 
     @Before
     public void setup() {
-        api = BezantApiFactory.createTestNetApi("6395c2bd-9bd8-3fb6-8792-4acfd0185874");
+        api = BezantApiFactory.createTestNetApi("efbe0d20-d0ab-3e94-b8e8-6085373745f1");
     }
 
     @Test
@@ -32,54 +30,12 @@ public class BezantApiTest {
     }
 
     @Test
-    public void transferTokenApiCall() throws IOException {
-        TokenTransferRequest tokenTransferRequest = new TokenTransferRequest();
-        tokenTransferRequest.setChannelName("common-channel");
-        tokenTransferRequest.setTokenChaincodeName("bezant-token");
-        tokenTransferRequest.setFromAddress("bznt0x55D347B50C2a863aDF8E6E23815d82BB240c0311");
-        tokenTransferRequest.setToAddress("bznt0x1625A6a0B570f9233066993521C0161aABF0bA3a");
-        tokenTransferRequest.setFromSkey("good");
-        tokenTransferRequest.setAmount("1");
-
-        BezantResponse<TokenTransferResponse> response = api.transferToken(tokenTransferRequest);
+    public void changeWalletPasswordApiCall() throws IOException {
+        BezantResponse<ChangeWalletPasswordResponse> response = api.changeWalletPassword("bznt0xF1Ac69817Bb3C1e6E70606F9Ce48Fd9eF7693d07", "bezant2", "bezant3");
         log.info(response.toString());
-        assertThat(response.getMessage().getTxId()).isNotBlank();
+        assertThat(response.getMessage().getEnrollmentID()).isNotBlank();
     }
 
-    @Test
-    public void failed_TransferTokenApiCall_InvalidSkey() throws IOException {
-        TokenTransferRequest tokenTransferRequest = new TokenTransferRequest();
-        tokenTransferRequest.setChannelName("common-channel");
-        tokenTransferRequest.setTokenChaincodeName("bezant-token");
-        tokenTransferRequest.setFromAddress("bznt0x55D347B50C2a863aDF8E6E23815d82BB240c0311");
-        tokenTransferRequest.setToAddress("bznt0x1625A6a0B570f9233066993521C0161aABF0bA3a");
-        tokenTransferRequest.setFromSkey("chequer12!@");
-        tokenTransferRequest.setAmount("1");
-
-        boolean thrown = false;
-        try {
-            api.transferToken(tokenTransferRequest);
-        } catch (BezantApiException e) {
-            log.info("{}", e);
-            if (e.getMessage().trim().equals("Invalid symmetric key.")) thrown = true;
-        }
-
-        assertThat(thrown).isTrue();
-    }
-
-    @Test
-    public void tokenBalanceApiCall() throws IOException {
-        TokenBalanceRequest request = new TokenBalanceRequest();
-        request.setChannelName("common-channel");
-        request.setTokenChaincodeName("bezant-token");
-        request.setInvokerAddress("bznt0x55D347B50C2a863aDF8E6E23815d82BB240c0311");
-        request.setInvokerSkey("good");
-        request.setAddress("bznt0x55D347B50C2a863aDF8E6E23815d82BB240c0311");
-
-        BezantResponse<TokenBalanceResponse> response = api.getTokenBalance(request);
-        log.info(response.toString());
-        assertThat(response.getMessage().getBalance()).isNotBlank();
-    }
 
     @Test
     public void invokeChaincodeApiCall() throws IOException {

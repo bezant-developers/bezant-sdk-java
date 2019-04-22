@@ -61,6 +61,16 @@ public class ApiEndpoint {
                 .url();
     }
 
+    public URL getChangeWalletPasswordUrl() {
+        return base()
+                .addPathSegment("blockchain")
+                .addPathSegment("v1")
+                .addPathSegment("wallet")
+                .addPathSegment("password")
+                .build()
+                .url();
+    }
+
 
     private String getHost() {
         if (networkType == NetworkType.MAINNET) return MAINNET_HOST;
