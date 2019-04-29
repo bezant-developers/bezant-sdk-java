@@ -1,20 +1,34 @@
 package io.bezant.baas.sdk.model.request;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.ToString;
 
-@Data
+import java.util.List;
+
+@Getter
+@ToString
+@Builder
 public class ChaincodeQueryRequest {
 
+
+    @NonNull
     private String channelName;
 
+    @NonNull
     private String chaincodeName;
 
+    @NonNull
     private String address;
 
+    @NonNull
     private String skey;
 
+    @NonNull
     private String function;
 
-    private String args;
+    @NonNull
+    private List<String> args;
 
 }

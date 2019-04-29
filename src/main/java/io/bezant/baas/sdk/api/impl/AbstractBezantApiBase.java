@@ -7,12 +7,14 @@ import io.bezant.baas.sdk.exception.BezantApiException;
 import io.bezant.baas.sdk.model.response.BezantApiErrorResponse;
 import io.bezant.baas.sdk.model.response.BezantResponse;
 import io.bezant.baas.sdk.util.JsonUtils;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 public abstract class AbstractBezantApiBase {
 
     protected MediaType jsonMediaType = MediaType.parse("application/json; charset=utf-8");
@@ -26,8 +28,8 @@ public abstract class AbstractBezantApiBase {
         this.endpoint = configuration.getApiEndpoint();
         this.client = new OkHttpClient.Builder()
                 .connectTimeout(5000, TimeUnit.MILLISECONDS)
-                .readTimeout(5000, TimeUnit.MILLISECONDS)
-                .writeTimeout(5000, TimeUnit.MILLISECONDS)
+                .readTimeout(15000, TimeUnit.MILLISECONDS)
+                .writeTimeout(15000, TimeUnit.MILLISECONDS)
                 .build();
     }
 
@@ -62,7 +64,7 @@ public abstract class AbstractBezantApiBase {
         if (!response.isSuccessful()) {
             BezantResponse<String> bezantResponse = fromJsonWithId(response, new TypeReference<BezantResponse<String>>() {
             });
-            BezantApiErrorResponse bezantError = BezantApiErrorResponse.builder().requestId(bezantResponse.getRequestId()).code(bezantResponse.getCode()).message(bezantResponse.getMessage().toString()).build();
+            BezantApiErrorResponse bezantError = BezantApiErrorResponse.builder().requestId(bezantResponse.getRequestId()).code(bezantResponse.getCode()).message(bezantResponse.getMessage()).build();
             throw new BezantApiException(bezantError);
         }
 
@@ -71,15 +73,21 @@ public abstract class AbstractBezantApiBase {
 
     private <T> BezantResponse<T> fromJsonWithId(Response response, TypeReference<BezantResponse<T>> typeReference) throws IOException {
         String requestId = response.header("Request-Id");
+
+        String message = response.body().string();
+        int code = response.code();
+
+        log.debug("response : {}", message);
+
         try {
-            BezantResponse<T> bezantResponse = JsonUtils.fromJson(response.body().string(), typeReference);
+            BezantResponse<T> bezantResponse = JsonUtils.fromJson(message, typeReference);
             bezantResponse.setRequestId(requestId);
             return bezantResponse;
         } catch (RuntimeException e) {
             BezantApiErrorResponse bezantError = BezantApiErrorResponse.builder()
-                    .message(response.body().string())
+                    .message(message)
                     .requestId(requestId)
-                    .code(Integer.toString(response.code()))
+                    .code(Integer.toString(code))
                     .build();
             throw new BezantApiException(bezantError);
         }

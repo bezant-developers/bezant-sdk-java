@@ -1,8 +1,10 @@
 package io.bezant.baas.sdk.model.response;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.ToString;
 
-@Data
+@ToString
+@Getter
 public class CreateWalletResponse extends BezantResponse<CreateWalletResponse> {
 
     private String enrollmentID;

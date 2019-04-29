@@ -1,13 +1,17 @@
 package io.bezant.baas.sdk.model.response;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@ToString
+@Getter
 public class BezantResponse<T> {
 
-    private String code;
+    protected String code;
 
-    private T message;
+    protected T message;
 
-    private String requestId;
+    @Setter
+    protected String requestId;
 }

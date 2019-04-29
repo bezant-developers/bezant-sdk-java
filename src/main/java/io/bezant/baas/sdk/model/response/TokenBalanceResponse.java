@@ -1,8 +1,10 @@
 package io.bezant.baas.sdk.model.response;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.ToString;
 
-@Data
+@ToString
+@Getter
 public class TokenBalanceResponse extends BezantResponse<TokenBalanceResponse> {
 
     private String balance;

@@ -28,4 +28,13 @@ public class BezantApiException extends RuntimeException {
     public String getCode() {
         return code;
     }
+
+    @Override
+    public String toString() {
+        return "BezantApiException{" +
+                "message='" + message + '\'' +
+                ", code='" + code + '\'' +
+                ", errorResponse=" + errorResponse +
+                '}';
+    }
 }

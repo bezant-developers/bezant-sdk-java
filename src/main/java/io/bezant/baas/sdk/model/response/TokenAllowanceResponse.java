@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @ToString
 @Getter
-public class ChaincodeInvokeResponse extends BezantResponse<ChaincodeInvokeResponse> {
+public class TokenAllowanceResponse {
 
-    private String txId;
+    private String amount;
 }

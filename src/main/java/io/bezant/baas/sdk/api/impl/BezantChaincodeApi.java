@@ -5,8 +5,6 @@ import io.bezant.baas.sdk.config.Configuration;
 import io.bezant.baas.sdk.model.request.ChaincodeInvokeRequest;
 import io.bezant.baas.sdk.model.request.ChaincodeQueryRequest;
 import io.bezant.baas.sdk.model.response.BezantResponse;
-import io.bezant.baas.sdk.model.response.ChaincodeInvokeResponse;
-import io.bezant.baas.sdk.model.response.ChaincodeQueryResponse;
 import io.bezant.baas.sdk.util.JsonUtils;
 import okhttp3.RequestBody;
 
@@ -18,18 +16,15 @@ public class BezantChaincodeApi extends AbstractBezantApiBase {
         super(configuration);
     }
 
-    public BezantResponse<ChaincodeInvokeResponse> invokeChaincode(ChaincodeInvokeRequest request) throws IOException {
+    public <T> BezantResponse<T> invokeChaincode(ChaincodeInvokeRequest request, TypeReference<BezantResponse<T>> typeReference) throws IOException {
         RequestBody requestBody = RequestBody.create(jsonMediaType, JsonUtils.toJson(request));
-
-        return post(requestBody, endpoint.getChaincodeInvokeUrl(request.getChannelName(), request.getChaincodeName()), new TypeReference<BezantResponse<ChaincodeInvokeResponse>>() {
-        });
+        return post(requestBody, endpoint.getChaincodeInvokeUrl(request.getChannelName(), request.getChaincodeName()), typeReference);
     }
 
-    public BezantResponse<ChaincodeQueryResponse> queryChaincode(ChaincodeQueryRequest request) throws IOException {
+    public <T> BezantResponse<T> queryChaincode(ChaincodeQueryRequest request, TypeReference<BezantResponse<T>> typeReference) throws IOException {
         RequestBody requestBody = RequestBody.create(jsonMediaType, JsonUtils.toJson(request));
 
-        return post(requestBody, endpoint.getChaincodeQueryUrl(request.getChannelName(), request.getChaincodeName()), new TypeReference<BezantResponse<ChaincodeQueryResponse>>() {
-        });
+        return post(requestBody, endpoint.getChaincodeQueryUrl(request.getChannelName(), request.getChaincodeName()), typeReference);
     }
 
 }

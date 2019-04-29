@@ -1,9 +1,9 @@
 package io.bezant.baas.sdk.model.response;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
 public class BezantApiErrorResponse {
 
