@@ -23,9 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BezantApiTest {
 
     private BezantWalletApi walletApi;
-
     private BezantChaincodeApi chaincodeApi;
-
     private BezantBrc20Api brc20Api;
 
     @Before
