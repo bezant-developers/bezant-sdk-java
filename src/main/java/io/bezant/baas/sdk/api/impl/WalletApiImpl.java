@@ -3,6 +3,7 @@ package io.bezant.baas.sdk.api.impl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import io.bezant.baas.sdk.api.WalletApi;
 import io.bezant.baas.sdk.config.Configuration;
 import io.bezant.baas.sdk.model.response.BezantResponse;
 import io.bezant.baas.sdk.model.response.ChangeWalletPasswordResponse;
@@ -12,9 +13,9 @@ import okhttp3.RequestBody;
 
 import java.io.IOException;
 
-public class BezantWalletApi extends AbstractBezantApiBase {
+public class WalletApiImpl extends AbstractBezantApiBase implements WalletApi {
 
-    public BezantWalletApi(Configuration configuration) {
+    public WalletApiImpl(Configuration configuration) {
         super(configuration);
     }
 

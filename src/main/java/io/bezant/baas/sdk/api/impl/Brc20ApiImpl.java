@@ -1,9 +1,8 @@
-package io.bezant.baas.sdk.api;
+package io.bezant.baas.sdk.api.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import io.bezant.baas.sdk.api.impl.BezantChaincodeApi;
-import io.bezant.baas.sdk.api.impl.BezantWalletApi;
+import io.bezant.baas.sdk.api.Brc20Api;
+import io.bezant.baas.sdk.api.ChaincodeApi;
 import io.bezant.baas.sdk.config.Configuration;
 import io.bezant.baas.sdk.model.request.ChaincodeInvokeRequest;
 import io.bezant.baas.sdk.model.request.ChaincodeQueryRequest;
@@ -17,37 +16,13 @@ import io.bezant.baas.sdk.model.response.*;
 
 import java.io.IOException;
 
-public class BezantApiImpl implements BezantApi {
+public class Brc20ApiImpl extends AbstractBezantApiBase implements Brc20Api {
 
-    private BezantWalletApi walletApi;
+    private ChaincodeApi chaincodeApi;
 
-    private BezantChaincodeApi chaincodeApi;
-
-    public BezantApiImpl(Configuration configuration) {
-        walletApi = new BezantWalletApi(configuration);
-        chaincodeApi = new BezantChaincodeApi(configuration);
-    }
-
-    @Override
-    public BezantResponse<CreateWalletResponse> createWallet(String walletSecretKey) throws IOException {
-        return walletApi.createWallet(walletSecretKey);
-    }
-
-    @Override
-    public BezantResponse<ChangeWalletPasswordResponse> changeWalletPassword(String walletAddress, String walletSecretKey, String newWalletSecretKey) throws IOException {
-        return walletApi.changeWalletPassword(walletAddress, walletSecretKey, newWalletSecretKey);
-    }
-
-    @Override
-    public BezantResponse<JsonNode> invokeChaincode(ChaincodeInvokeRequest request) throws IOException {
-        return chaincodeApi.invokeChaincode(request, new TypeReference<BezantResponse<JsonNode>>() {
-        });
-    }
-
-    @Override
-    public BezantResponse<JsonNode> queryChaincode(ChaincodeQueryRequest request) throws IOException {
-        return chaincodeApi.queryChaincode(request, new TypeReference<BezantResponse<JsonNode>>() {
-        });
+    public Brc20ApiImpl(Configuration configuration) {
+        super(configuration);
+        this.chaincodeApi = new ChaincodeApiImpl(configuration);
     }
 
     @Override
@@ -139,4 +114,5 @@ public class BezantApiImpl implements BezantApi {
         return chaincodeApi.queryChaincode(chaincodeQueryRequest, new TypeReference<BezantResponse<TokenBalanceResponse>>() {
         });
     }
+
 }

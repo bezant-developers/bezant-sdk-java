@@ -1,5 +1,8 @@
 package io.bezant.baas.sdk.api;
 
+import io.bezant.baas.sdk.BezantBrc20Api;
+import io.bezant.baas.sdk.BezantChaincodeApi;
+import io.bezant.baas.sdk.BezantWalletApi;
 import io.bezant.baas.sdk.model.request.brc20.allowance.TokenAllowanceRequest;
 import io.bezant.baas.sdk.model.request.brc20.approve.TokenApproveRequest;
 import io.bezant.baas.sdk.model.request.brc20.balance.TokenBalanceRequest;
@@ -19,23 +22,29 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 public class BezantApiTest {
 
-    private BezantApi api;
+    private BezantWalletApi walletApi;
+
+    private BezantChaincodeApi chaincodeApi;
+
+    private BezantBrc20Api brc20Api;
 
     @Before
     public void setup() {
-        api = BezantApiFactory.createTestNetApi("efbe0d20-d0ab-3e94-b8e8-6085373745f1");
+        walletApi = BezantWalletApi.testNet("efbe0d20-d0ab-3e94-b8e8-6085373745f1");
+        chaincodeApi = BezantChaincodeApi.testNet("efbe0d20-d0ab-3e94-b8e8-6085373745f1");
+        brc20Api = BezantBrc20Api.testNet("efbe0d20-d0ab-3e94-b8e8-6085373745f1");
     }
 
     @Test
     public void createWalletApiCall() throws IOException {
-        BezantResponse<CreateWalletResponse> response = api.createWallet("bezant");
+        BezantResponse<CreateWalletResponse> response = walletApi.createWallet("bezant");
         log.info(response.toString());
         assertThat(response.getMessage().getEnrollmentID()).isNotBlank();
     }
 
     @Test
     public void changeWalletPasswordApiCall() throws IOException {
-        BezantResponse<ChangeWalletPasswordResponse> response = api.changeWalletPassword("bznt0xF1Ac69817Bb3C1e6E70606F9Ce48Fd9eF7693d07", "bezant3", "bezant");
+        BezantResponse<ChangeWalletPasswordResponse> response = walletApi.changeWalletPassword("bznt0xF1Ac69817Bb3C1e6E70606F9Ce48Fd9eF7693d07", "bezant3", "bezant");
         log.info(response.toString());
         assertThat(response.getMessage().getEnrollmentID()).isNotBlank();
     }
@@ -52,7 +61,7 @@ public class BezantApiTest {
                 .addReceiver("bznt0xCB81F4A2068e3e09EE6b0aBd11efC52EE5543AD1", "2")
                 .build();
 
-        BezantResponse<ChaincodeInvokeResponse> response = api.tokenTransfer(tokenTransferRequest);
+        BezantResponse<ChaincodeInvokeResponse> response = brc20Api.tokenTransfer(tokenTransferRequest);
 
         System.out.println(response);
 
@@ -69,7 +78,7 @@ public class BezantApiTest {
                 .amount("10")
                 .build();
 
-        BezantResponse<ChaincodeInvokeResponse> response = api.tokenApprove(tokenApproveRequest);
+        BezantResponse<ChaincodeInvokeResponse> response = brc20Api.tokenApprove(tokenApproveRequest);
 
         System.out.println(response);
     }
@@ -85,7 +94,7 @@ public class BezantApiTest {
                 .spenderAddress("bznt0xCB81F4A2068e3e09EE6b0aBd11efC52EE5543AD1")
                 .build();
 
-        BezantResponse<TokenAllowanceResponse> response = api.tokenAllowance(tokenAllowanceRequest);
+        BezantResponse<TokenAllowanceResponse> response = brc20Api.tokenAllowance(tokenAllowanceRequest);
 
         System.out.println(response);
     }
@@ -102,7 +111,7 @@ public class BezantApiTest {
                 .amount("1")
                 .build();
 
-        BezantResponse<ChaincodeInvokeResponse> response = api.tokenTransferFrom(tokenTransferFromRequest);
+        BezantResponse<ChaincodeInvokeResponse> response = brc20Api.tokenTransferFrom(tokenTransferFromRequest);
 
         System.out.println(response);
     }
@@ -116,7 +125,7 @@ public class BezantApiTest {
                 .invokerSkey("1234")
                 .build();
 
-        BezantResponse<TokenTotalSupplyResponse> response = api.tokenTotalSupply(tokenTotalSupplyRequest);
+        BezantResponse<TokenTotalSupplyResponse> response = brc20Api.tokenTotalSupply(tokenTotalSupplyRequest);
 
         System.out.println(response);
     }
@@ -131,7 +140,7 @@ public class BezantApiTest {
                 .who("bznt0xCB81F4A2068e3e09EE6b0aBd11efC52EE5543AD1")
                 .build();
 
-        BezantResponse<TokenBalanceResponse> response = api.tokenBalance(tokenBalanceRequest);
+        BezantResponse<TokenBalanceResponse> response = brc20Api.tokenBalance(tokenBalanceRequest);
 
         System.out.println(response);
     }

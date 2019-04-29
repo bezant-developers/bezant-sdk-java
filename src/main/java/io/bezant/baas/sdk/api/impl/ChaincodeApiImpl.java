@@ -1,6 +1,7 @@
 package io.bezant.baas.sdk.api.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import io.bezant.baas.sdk.api.ChaincodeApi;
 import io.bezant.baas.sdk.config.Configuration;
 import io.bezant.baas.sdk.model.request.ChaincodeInvokeRequest;
 import io.bezant.baas.sdk.model.request.ChaincodeQueryRequest;
@@ -10,9 +11,9 @@ import okhttp3.RequestBody;
 
 import java.io.IOException;
 
-public class BezantChaincodeApi extends AbstractBezantApiBase {
+public class ChaincodeApiImpl extends AbstractBezantApiBase implements ChaincodeApi {
 
-    public BezantChaincodeApi(Configuration configuration) {
+    public ChaincodeApiImpl(Configuration configuration) {
         super(configuration);
     }
 
