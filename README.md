@@ -39,21 +39,34 @@ Step 2. Add the dependency
 ### SDK Usage
 for Test Net
 ```java
-BezantApi api = BezantApiFactory.createTestNetApi("{API KEY}");
+BezantWalletApi walletApi = BezantWalletApi.testNet("{API_KEY}");
+BezantChaincodeApi chaincodeApi = BezantChaincodeApi.testNet("{API_KEY}");
+BezantBrc20Api brc20Api = BezantBrc20Api.testNet("{API_KEY}");
 ```
 
 for Main Net (TBD, Not Yet)
 ```java
-BezantApi api = BezantApiFactory.createMainNetApi("{API KEY}");
+BezantWalletApi walletApi = BezantWalletApi.mainNet("{API_KEY}");
+BezantChaincodeApi chaincodeApi = BezantChaincodeApi.mainNet("{API_KEY}");
+BezantBrc20Api brc20Api = BezantBrc20Api.mainNet("{API_KEY}");
 ```
 
 #### List of Api Functions
-- createWallet(String: walletSecretKey)
-- transferToken(TokenTransferRequest: request)
-- getTokenBalance(String: tokenName, String: address)
-- invokeChaincode(ChaincodeInvokeRequest: request)
-- queryChaincode(ChaincodeQueryRequest: request)
-
+- Wallet API
+    - createWallet
+    - changeWalletPassword
+  
+- Chaincode API
+    - invokeChaincode
+    - queryChaincode
+    
+- BRC20 API
+    - tokenTransfer
+    - tokenAllowance
+    - tokenApprove
+    - tokenTransferFrom
+    - tokenTotalSupply
+    - tokenBalance
 
 ## License
 MIT
