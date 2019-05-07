@@ -2,10 +2,6 @@
 
 The Bezant BaaS SDK is a sdk for building decentralized applications over the Bezant blockchain.
 
-> Note: While the Bezant BaaS is now testnet, it is still under active development; there may be breaking changes.
-
-&nbsp;
-
 ## Table of contents
 
 * [Detailed api documentation](https://docs.google.com/document/d/1Eh6hWbgVatFP83iFv_SJIE411rHai0U0F7M0uv4KN3A/edit?usp=sharing)
@@ -44,7 +40,7 @@ BezantChaincodeApi chaincodeApi = BezantChaincodeApi.testNet("{API_KEY}");
 BezantBrc20Api brc20Api = BezantBrc20Api.testNet("{API_KEY}");
 ```
 
-for Main Net (TBD, Not Yet)
+for Main Net
 ```java
 BezantWalletApi walletApi = BezantWalletApi.mainNet("{API_KEY}");
 BezantChaincodeApi chaincodeApi = BezantChaincodeApi.mainNet("{API_KEY}");
