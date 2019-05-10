@@ -4,7 +4,7 @@ The Bezant BaaS SDK is a sdk for building decentralized applications over the Be
 
 ## Table of contents
 
-* [Detailed api documentation](https://docs.google.com/document/d/1Eh6hWbgVatFP83iFv_SJIE411rHai0U0F7M0uv4KN3A/edit?usp=sharing)
+* [Detailed api documentation](https://github.com/bezant-developers/bezant-api-docs)
 
 &nbsp;
 
