@@ -15,6 +15,8 @@ The Bezant BaaS SDK is a sdk for building decentralized applications over the Be
 
 ### Installation 
 Step 1. Add the JitPack repository to your build file
+
+##### Maven 
 ```xml
 <repositories>
     <repository>
@@ -23,7 +25,22 @@ Step 1. Add the JitPack repository to your build file
     </repository>
 </repositories>
 ```
+
+##### Gradle
+```
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+
+}
+```
+
+
 Step 2. Add the dependency
+
+##### Maven
 ```xml
 <dependency>
     <groupId>com.github.bezant-developers</groupId>
@@ -31,6 +48,16 @@ Step 2. Add the dependency
     <version>0.1</version>
 </dependency>
 ```
+
+##### Gradle
+```
+dependencies {
+    implementation('com.github.bezant-developers:bezant-sdk-java:0.1')
+}
+```
+
+
+
 
 ### SDK Usage
 for Test Net
